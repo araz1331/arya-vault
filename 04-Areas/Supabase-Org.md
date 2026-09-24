@@ -5,6 +5,8 @@ Org ID: `vxbqgslosdqjpibntpua`
 ## Проекты
 - Arya HR — `xxzyutniiqmyrihhpooh` → [[Arya-HR]]
 - Arya Job — `xrozowxzcofdoemsmfzk` (eu-central-1) → [[Arya-Job]]
+- Arya Connect — `untqsmnzvynbqmnecqct` (eu-central-1) → [[Arya-Connect]]
+- Arya Mail — `pypvjnzlkmoikfzhuwbm` → [[Arya-Mail]]
 - Arya Press → [[Arya-Press]]
 - broker → [[Arya-Broker]]
 - Concierge → [[Arya-Concierge]]

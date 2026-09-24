@@ -11,12 +11,15 @@ Drizzle остаётся, но ездит по HTTPS: `pg-proxy` → supabase-js
 Долгие задачи (скраперы) в Worker не влезают → GitHub Actions, там TCP есть.
 ## Статус сервисов
 - 🟢 hr.arya.az — [[Arya-HR]] (Pages, hr-3jd.pages.dev, проверено 20.09)
+- 🟢 connect.arya.az — [[Arya-Connect]] (Workers + Pages, собран 22–24.09)
 - 🟡 job.arya.az — [[Arya-Job]] (Worker задеплоен + секреты, DNS ещё на Replit, сайт лежит)
 - 🔴 concierge.arya.az — [[Arya-Concierge]]
 - 🔴 tax.arya.az (Arya Muhasibat)
 - 🔴 legal.arya.az — [[Arya-Legal]]
 - 🔴 press.arya.az — [[Arya-Press]]
-- 🔴 wa.arya.az (WhatsApp Hub)
+- 🟢 wa.arya.az — [[Arya-Hub]] (ушёл с Replit 22.09, но **не** на Cloudflare:
+  Docker на [[Hetzner-Server]] — шлюзу нужны долгоживущие процессы)
+- 🟢 mail.hirearya.com — [[Arya-Mail]] (там же, PM2)
 - 🔴 broker — [[Arya-Broker]]
 ## Чеклист на сервис
 - [ ] Монорепо по шаблону: apps/web + workers/api + packages/db
@@ -35,5 +38,10 @@ Drizzle остаётся, но ездит по HTTPS: `pg-proxy` → supabase-js
 - Pages `_redirects` не умеет проксировать на чужой origin → на `*.pages.dev` превью API недоступен
 - pnpm 11: `onlyBuiltDependencies` переименован в `allowBuilds`, иначе install падает и портит pnpm-workspace.yaml
 - Один `catalog:` на версию в pnpm-workspace.yaml — две копии drizzle-orm дают тысячи фейковых ошибок типов
+## Куда Cloudflare не подходит
+Медиасервер голоса, SMTP и всё, что живёт дольше запроса, уехало на
+[[Hetzner-Server]], а не в Workers. Цель «уйти с Replit» от этого не страдает —
+страдает только формулировка «всё на Cloudflare».
+
 ## Связанное
-[[Supabase-Org]]
+[[Supabase-Org]] · [[Hetzner-Server]]

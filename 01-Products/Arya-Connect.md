@@ -1,10 +1,27 @@
 # Arya Connect
 
 ## Домен
-connect.arya.az (планируется)
+connect.arya.az
 
 ## Статус
-🟡 Спецификация — разработка не начата
+🟢 В проде — собран 22–24.09.2026, спецификация ниже реализована
+
+## Состояние реализации
+Repo: `araz1331/Arya-Connect` · Supabase: `untqsmnzvynbqmnecqct` (eu-central-1)
+Стек по шаблону [[Migration-Cloudflare]]: Cloudflare Workers (Hono) + Pages + Supabase HTTP.
+
+**Каналы:** WhatsApp (через [[Arya-Hub]], Embedded Signup), веб-виджет, голос,
+Telegram, SMS (LSIM, только исходящие), email (через [[Arya-Mail]]).
+
+**Готово:** OTP-авторизация, KB на pgvector, AI-петля с мягкой эскалацией,
+подписки, панель менеджера, виджет, демо-дашборд `/demo`, контакты + импорт CSV,
+рассылки (SMS/email/WA, отложенные через Cron Trigger), управление шаблонами Meta,
+обучение AI на исправлениях менеджера, аналитика диалогов, вебхуки для CRM,
+показ перерасхода, приглашение менеджеров с уведомлением в WhatsApp.
+
+**Тариф:** 79 AZN депозит + pay-as-you-go. Пробный период — 7 дней
+(`TRIAL_DAYS` в `lib/subscription.ts`; считается от `tenants.created_at`).
+SMS — 0.05 AZN за сегмент.
 
 ## Краткое описание
 B2B SaaS: омниканальный AI-CRM. Бизнес общается с клиентами через WhatsApp,
@@ -922,22 +939,35 @@ create unique index idx_messages_external on messages (tenant_id, external_messa
 1. **Meta BSP.** Подключение чужих номеров WABA через Embedded Signup требует
    одобренного BSP-статуса. Заявка Arya Hub подана 07.08 — до одобрения
    Phase 1 возможна только на номерах, заведённых вручную.
-2. **Медиасервер для голоса.** Не выбран (FreeSWITCH / Asterisk / LiveKit SIP)
-   и не определён хостинг — вне Cloudflare.
+2. ~~**Медиасервер для голоса.**~~ ✅ 22.09 — LiveKit + coturn на
+   [[Hetzner-Server]].
 3. **Воркер индексации KB.** Cloudflare Queues consumer имеет те же лимиты CPU,
    что и Worker; для 20 МБ PDF, вероятно, нужен контейнер.
-4. **Arya Mail inbound.** Схема `reply+<userId>+<leadId>@` предполагает
-   `userId` подписчика Mail. Нужно решить, как отобразить `tenant_id` Connect
-   на эту схему, и подтвердить, что `webhook_configs` заполняется.
-5. **Биллинг.** Не специфицирован: провайдер (Stripe / Kapital), тарифы, учёт
-   перерасхода сообщений.
+4. ~~**Arya Mail inbound.**~~ ✅ 24.09 — адресация по слагу арендатора
+   (`<slug>@mail.hirearya.com`), маршрутизация на один вебхук Connect через
+   `TENANT_ROUTER_WEBHOOK_URL`. Подробности: [[Arya-Mail]].
+5. **Биллинг.** Модель выбрана 24.09: 79 AZN депозит + pay-as-you-go,
+   перерасход показывается в панели. Реализация оплаты — открыта.
 6. **Хранение диалогов.** Срок хранения и требования ПДн Азербайджана не
    определены.
 
 ---
 
+## Открытые задачи
+- [ ] Super Admin дашборд
+- [ ] Реализовать биллинг: депозит 79 AZN + pay-as-you-go
+- [ ] Онбординг-флоу
+- [ ] Рейт-лимиты
+- [ ] Поиск по диалогам
+- [ ] Экспорт диалогов
+- [ ] GDPR: срок хранения и удаление по запросу
+- [ ] Реальный токен Telegram-бота (сейчас канал без боевого бота)
+- [ ] Обновить лендинг (отложено)
+- [ ] `BYPASS_PAYMENT` всё ещё `true` в проде
+
 ## Связанные документы
-[[Arya-Hub]] · [[Arya-Concierge]] · [[Arya-Voice]]
+[[Arya-Hub]] · [[Arya-Mail]] · [[Arya-Concierge]] · [[Arya-Voice]] · [[Hetzner-Server]] · [[Migration-Cloudflare]]
 
 ## Изменения
 - 2026-09-21 — первая редакция спецификации
+- 2026-09-24 — спецификация реализована; статус, состояние реализации, открытые задачи
