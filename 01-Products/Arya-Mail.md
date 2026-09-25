@@ -18,6 +18,7 @@ MX `mail.hirearya.com` → `inbound-smtp.eu-west-1.amazonaws.com` (Resend раб
 Адресация по слагу арендатора: `<slug>@mail.hirearya.com` → [[Arya-Connect]].
 ## Домены
 `hirearya.com` и `mail.hirearya.com` — верифицированы (SPF/DKIM/TXT).
+TLS от Let's Encrypt, истекает 23.12.2026 (проверено 25.09).
 ## Грабли
 - В приложении **нет dotenv**: `.env` сам по себе не читается, окружение
   прокидывает `ecosystem.config.cjs`. PM2 при этом показывает `online`, хотя

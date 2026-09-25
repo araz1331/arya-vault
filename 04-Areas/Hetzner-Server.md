@@ -6,7 +6,13 @@ CPX42, Falkenstein, Ubuntu 24.04, `2.28.100.162` (создан 22.09.2026)
 ## Что крутится
 - [[Arya-Hub]] — `wa.arya.az`, Docker, контейнер `arya-hub-api`
 - [[Arya-Mail]] — `/var/www/arya-mail`, PM2, `mail.hirearya.com`
-- LiveKit + coturn — медиасервер для WhatsApp Voice
+- `arya-voice-agent` — Docker, голосовой агент WhatsApp
+- LiveKit — медиасервер (контейнер `livekit-livekit-1`). Отдельного coturn на
+  машине **нет** — вопреки записи от 22.09: `turnserver` не установлен, юнит
+  неактивен, TURN обслуживает сам LiveKit. Проверено 25.09.
+- `kapital-proxy` — PM2, 127.0.0.1:3020, `kapital.hirearya.com`. Платёжные
+  вызовы Connect идут отсюда, потому что у машины статический IP, который банк
+  может внести в договор. См. [[Kapital-Payments]]
 ## Обслуживание
 - HTTPS через nginx + certbot
 - Логи Hub: `docker logs arya-hub-api`
@@ -19,5 +25,7 @@ CPX42, Falkenstein, Ubuntu 24.04, `2.28.100.162` (создан 22.09.2026)
 - systemd-resolved кэширует отрицательные ответы DNS → проверку доменов делать
   через публичные резолверы
 ## Открытые задачи
-- [ ] Пересобрать Hub после фикса юникода в SMS (4038a38) и бэклога voice-agent (f9ac80e)
+- [ ] Пересобрать `arya-hub-api` — фикс юникода в SMS (4038a38) подтянут в
+      рабочую копию 25.09, но образ не пересобран, значит не в проде
+- [ ] DNS `kapital.hirearya.com` → 2.28.100.162, затем certbot
 - [ ] Бэкапы и мониторинг машины
