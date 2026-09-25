@@ -985,6 +985,10 @@ create unique index idx_messages_external on messages (tenant_id, external_messa
 
 ## Открытые задачи
 - [ ] Kapital: вписать в договор домены `*.arya.az`, `*.hirearya.com` и IP 2.28.100.162 — [[Kapital-Payments]]
+- [ ] Super Admin: убрать устаревший текст «BYPASS_PAYMENT is still on in
+      production» на страницах Payments, Overview и Analytics. Переменной нет с
+      25.09, а панель продолжает уверять обратное — из-за этого задачу «выключить
+      BYPASS_PAYMENT» заводят снова и снова
 - [ ] Telegram: боевой токен бота для теста
 - [ ] Рейт-лимиты
 - [ ] Поиск по диалогам
